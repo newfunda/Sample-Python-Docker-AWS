@@ -10,11 +10,17 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3
 
+#         - name: Configure AWS Credentials
+#           uses: aws-actions/configure-aws-credentials@v2
+#           with:
+#             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+#             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+#             aws-region: ${{ secrets.AWS_REGION}}
+
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v2
           with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+            role-to-assume: arn:aws:iam::637338032656:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_business_ContributorPrivate_5749854393823b13
             aws-region: ${{ secrets.AWS_REGION}}
 
         - name: Login to ECR
