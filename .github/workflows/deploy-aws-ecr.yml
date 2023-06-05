@@ -10,17 +10,17 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3
 
-        - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v2
-          with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-            role-to-assume: arn:aws:iam::637338032656:role/aws-controltower-AdministratorExecutionRole
-            aws-region: ${{ secrets.AWS_REGION}}
+        # - name: Configure AWS Credentials
+        #   uses: aws-actions/configure-aws-credentials@v2
+        #   with:
+        #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        #     role-to-assume: arn:aws:iam::637338032656:role/aws-controltower-AdministratorExecutionRole
+        #     aws-region: ${{ secrets.AWS_REGION}}
 
-        - name: Login to ECR
-          id: login-ecr
-          uses: aws-actions/amazon-ecr-login@v1
+        # - name: Login to ECR
+        #   id: login-ecr
+        #   uses: aws-actions/amazon-ecr-login@v1
 
         - name: Automating Tagging of Releases
           id: increment-git-tag
@@ -35,5 +35,5 @@ jobs:
             IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
           run: |
             docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
             
