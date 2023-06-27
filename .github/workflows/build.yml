@@ -1,0 +1,40 @@
+---
+
+name: Test
+run-name: Build, Install, Lint, Scan and Test
+
+on:
+  push:
+    branches:
+      - "feature/*"
+      - "bug/*"
+      - "hotfix/*"
+      - "release/*"
+      - "main"
+
+env:
+  SERVICE_NAME: XPro - Opportunity Service
+  SERVICE_CODE: opportunity-service
+  SERVICE_VERSION: V.0.1
+  SWAGGER_URI: /documentation
+  REDOC_URI: /r_documentation
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9"]
+
+    name: opportunity-service build - ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
