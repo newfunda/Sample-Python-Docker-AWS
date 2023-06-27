@@ -1,4 +1,5 @@
 ## Task/Bug URL
+## Enter the AB#ID within the title or description (not a comment) to link this PR to ADO Story, where ID = Story number
 
 ## Description
 
