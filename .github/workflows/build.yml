@@ -20,22 +20,41 @@ env:
   REDOC_URI: /r_documentation
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.9"]
-
-    name: opportunity-service build - ${{ matrix.python-version }}
+  check:
+    name: Check files
+    outputs:
+      run_job: ${{ steps.check_files.outputs.run_job }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
-      - uses: actions/checkout@v2
-      - id: folder_changes
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: check modified files
+        id: check_files
         run: |
-            echo "ischanged=0" >> $GITHUB_OUTPUT
-            git diff --quiet HEAD main -- build || echo "ischanged=1" >> $GITHUB_OUTPUT
-      - name: print
-        run: echo ${{ steps.folder_changes.outputs.ischanged }}
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+          
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD &gt; files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != build/* ]]; then
+              echo "This modified file is not under the 'build' folder."
+              echo "run_job=false" >>> $GITHUB_OUTPUT
+              break
+            else
+              echo "run_job=true" >>> $GITHUB_OUTPUT
+            fi
+          done &lt; files.txt
+
+  job_for_db:
+    name: Job for 'build' folder
+    needs: check
+    if: needs.check.outputs.run_job == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: run for 'build' folder
+        run: echo "This job runs only when all the modified files are under the 'build' folder."
