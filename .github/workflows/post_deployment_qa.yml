@@ -1,0 +1,17 @@
+---
+name: Post Deployment
+
+on:
+  workflow_run:
+    workflows: ["db-migrate-qa"]
+    types:
+      - completed
+  workflow_call:
+jobs:
+  verify-deployment-dev:
+    runs-on: ubuntu-latest
+    name: Verify deployed API
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - run: echo "post validation running....on QA"
