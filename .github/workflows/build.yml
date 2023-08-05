@@ -1,7 +1,6 @@
 ---
-
 name: Test
-run-name: Build, Install, Lint, Scan and Test
+run-name: Build and migrate
 
 on:
   push:
@@ -11,6 +10,10 @@ on:
       - "hotfix/*"
       - "release/*"
       - "main"
+  workflow_run:
+    workflows: ["DB Migration"]
+    types:
+      - completed
 
 env:
   SERVICE_NAME: XPro - Opportunity Service
@@ -33,5 +36,19 @@ jobs:
 
   migrate:
     needs: build
-    uses: ./.github/workflows/migrate.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: DB Migration
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const token = process.env.GITHUB_TOKEN;
+            const octokit = new github.GitHub(token);
+            await octokit.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'migrate.yml',
+              ref: context.ref,
+              # inputs: {} // Pass any inputs your job requires
+            });
     

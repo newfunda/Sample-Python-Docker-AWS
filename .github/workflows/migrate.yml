@@ -4,8 +4,6 @@ name: "DB Migration"
 on:
   workflow_call:
   push:
-    branches:
-      - 'main'
     paths:
       - 'build/*'
 jobs:
