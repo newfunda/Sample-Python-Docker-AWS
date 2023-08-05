@@ -1,5 +1,5 @@
 ---
-name: "DB Migration"
+name: DB migration
 
 on:
   workflow_call:
