@@ -33,18 +33,9 @@ jobs:
         working-directory: .
     steps:
       - uses: actions/checkout@v2
-      - name: Get parent commit hash
-        id: get_parent_commit
-        run: |
-          echo "parent_commit=$(git rev-parse HEAD~1)" >> $GITHUB_OUTPUT
       - id: folder_changes
         run: |
-          if git diff --quiet ${{ github.sha }} ${{ steps.get_parent_commit.outputs.parent_commit }} -- build || [ $? -eq 1 ]; then
-            echo "Changes detected in the folder."
-            echo "ischanged=1" >> $GITHUB_OUTPUT
-          else
-            echo "No changes in the folder."
             echo "ischanged=0" >> $GITHUB_OUTPUT
-          fi
+            git diff --quiet HEAD master -- build || echo "ischanged=1" >> $GITHUB_OUTPUT
       - name: print
         run: echo ${{ steps.folder_changes.outputs.ischanged }}
