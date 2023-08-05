@@ -36,12 +36,12 @@ jobs:
 
       - id: folder_changes
         run: |
-          echo "ischanged=0" >> $GITHUB_OUTPUT
-          CHANGES=$(git diff "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" --name-only)
-          # Has anything changed in build directorie?
-          grep build/* <<< "$CHANGES" && echo "ischanged=1" >> $GITHUB_OUTPUT
-          # Exit cleanly, regardless of final grep result
-          exit 0
-
+          if git diff --name-only ${{ github.sha }} ${{ github.sha }}^ | grep -q '^build/'; then
+            echo "Changes detected in the folder."
+            echo "ischanged=1" >> $GITHUB_OUTPUT
+          else
+            echo "No changes in the folder."
+            echo "ischanged=0" >> $GITHUB_OUTPUT
+          fi
       - name: print
         run: echo ${{ steps.folder_changes.outputs.ischanged }}
