@@ -40,14 +40,12 @@ jobs:
 
   post-deployment-dev:
     needs: 
-      - deploy
       - post-deployment-qa
     uses: ./.github/workflows/post_deployment_dev.yml
     secrets: inherit
 
   post-deployment-uat:
     needs: 
-      - deploy
       - post-deployment-dev
     uses: ./.github/workflows/post_deployment_uat.yml
     secrets: inherit
