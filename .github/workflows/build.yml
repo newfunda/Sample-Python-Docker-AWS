@@ -46,11 +46,3 @@ jobs:
       environment: 'qa'
     secrets: inherit
 
-  deploy-on-build-success-dev:
-    name: dev deploy
-    needs: 
-      - deploy-on-build-success-qa
-    uses: ./.github/workflows/deploy_api.yml
-    with:
-      environment: 'dev'
-    secrets: inherit

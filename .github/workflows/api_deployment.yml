@@ -39,16 +39,16 @@ jobs:
     uses: ./.github/workflows/post_deployment_qa.yml
     secrets: inherit
 
-  post-deployment-dev:
-    needs: 
-      - post-deployment-qa
-    if: (inputs.environment == 'dev')
-    uses: ./.github/workflows/post_deployment_dev.yml
-    secrets: inherit
+  # post-deployment-dev:
+  #   needs: 
+  #     - post-deployment-qa
+  #   if: (inputs.environment == 'dev')
+  #   uses: ./.github/workflows/post_deployment_dev.yml
+  #   secrets: inherit
 
-  post-deployment-uat:
-    needs: 
-      - post-deployment-dev
-    if: (inputs.environment == 'uat')
-    uses: ./.github/workflows/post_deployment_uat.yml
-    secrets: inherit
+  # post-deployment-uat:
+  #   needs: 
+  #     - post-deployment-dev
+  #   if: (inputs.environment == 'uat')
+  #   uses: ./.github/workflows/post_deployment_uat.yml
+  #   secrets: inherit
