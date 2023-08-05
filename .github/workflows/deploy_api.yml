@@ -8,23 +8,23 @@ on:
         required: true
         type: string
         description: Environment
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: Environment to deploy
-        default: qa
-        options:
-          - qa
-          - dev
-          - uat
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       type: choice
+  #       description: Environment to deploy
+  #       default: qa
+  #       options:
+  #         - qa
+  #         - dev
+  #         - uat
 permissions:
   id-token: write
   contents: read
 
 jobs:
   deploy-qa:
-    if: (inputs.environment == 'qa' || contains(github.ref, 'main'))
+    if: (inputs.environment == 'qa')
     uses: ./.github/workflows/api_deployment.yml
     with:
       environment: qa
@@ -33,6 +33,7 @@ jobs:
     secrets: inherit
 
   deploy-dev:
+    needs: deploy-qa
     if: (inputs.environment == 'dev')
     uses: ./.github/workflows/api_deployment.yml
     with:
