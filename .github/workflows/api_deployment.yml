@@ -33,13 +33,21 @@ jobs:
         uses: actions/checkout@v3
       - run: echo "${{ inputs.environment }} lambda updated."
 
-  post-deployment:
+  post-deployment-qa:
     needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Post Deployment QA"
-        uses: ./.github/workflows/post_deployment_qa.yml
-      - name: "Post Deployment Dev"
-        uses: ./.github/workflows/post_deployment_dev.yml
-      - name: "Post Deployment UAT"
-        uses: ./.github/workflows/post_deployment_uat.yml
+    uses: ./.github/workflows/post_deployment_qa.yml
+    secrets: inherit
+
+  post-deployment-dev:
+    needs: 
+      - deploy
+      - post-deployment-qa
+    uses: ./.github/workflows/post_deployment_dev.yml
+    secrets: inherit
+
+  post-deployment-uat:
+    needs: 
+      - deploy
+      - post-deployment-dev
+    uses: ./.github/workflows/post_deployment_uat.yml
+    secrets: inherit
