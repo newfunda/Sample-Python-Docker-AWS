@@ -8,7 +8,7 @@ on:
       - completed
   workflow_call:
 jobs:
-  verify-deployment-dev:
+  verify-deployment-qa:
     runs-on: ubuntu-latest
     name: Verify deployed API
     steps:
