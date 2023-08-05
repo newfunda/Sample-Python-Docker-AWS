@@ -34,13 +34,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - id: git-diff
+      - name: Check folder changes
+        id: folder_changes
         run: |
-          CHANGES=$(git diff "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" --name-only)
-          # Has anything outside of `build` changed?
-          grep -v build <<< "$CHANGES" && echo "build" >> $GITHUB_OUTPUT
-          # Exit cleanly, regardless of final grep result
-          exit 0
+          if git diff --name-only ${{ github.sha }} ${{ github.sha }}^ | grep -q '^build/'; then
+            echo "Changes detected in the folder."
+            grep build/ <<< "$CHANGES" && echo "ischanged=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes in the folder."
+            echo "ischanged=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: print
-        run: echo ${{ steps.git-diff.outputs.module }}
+        run: echo ${{ steps.folder_changes.outputs.ischanged }}
