@@ -1,0 +1,17 @@
+---
+name: QA DB migration
+
+on:
+    workflow_call:
+    push:
+      paths:
+        - 'build/*'
+jobs:
+  db-migrate-dev:
+    runs-on: ubuntu-latest
+    environment: qa
+    name: QA DB migrate
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2  
+        - run: echo "qa migration done"

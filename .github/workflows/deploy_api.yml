@@ -1,0 +1,48 @@
+---
+name: "Deploy API Service"
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: Environment
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment to deploy
+        default: qa
+        options:
+          - qa
+          - dev
+          - uat
+
+jobs:
+  deploy-qa:
+    if: (inputs.environment == 'qa' || contains(github.ref, 'main'))
+    uses: ./.github/workflows/api_deployment.yml
+    with:
+      environment: qa
+      function: pdi-xpro-qa-api-services-lambda
+      function_url: "https://fabt2pnho5dgnb4nk5okaf2ueq0qhwsj.lambda-url.us-east-1.on.aws/"
+    secrets: inherit
+
+  deploy-dev:
+    if: (inputs.environment == 'dev')
+    uses: ./.github/workflows/api_deployment.yml
+    with:
+      environment: dev
+      function: pdi-xpro-dev-api-services-lambda
+      function_url: "https://7bmimbx7ratyrbfy3auohovkp40etaxx.lambda-url.us-east-1.on.aws/"
+    secrets: inherit
+
+  # deploy-uat:
+  #   if: (inputs.environment == 'uat')
+  #   uses: ./.github/workflows/api_deployment.yml
+  #   with:
+  #     environment: uat
+  #     function: pdi-xpro-uat-api-services-lambda
+  #     function_url: "https://7erbvwz6buawsif66ll6tbkpjq0heftz.lambda-url.us-east-1.on.aws/"
+  #   secrets: inherit

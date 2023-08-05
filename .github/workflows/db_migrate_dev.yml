@@ -1,0 +1,23 @@
+---
+name: Dev DB migration
+
+on:
+    workflow_call:
+    push:
+      paths:
+        - 'build/*'
+jobs:
+  db-migrate-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    name: Dev DB migrate
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: 3.9
+  
+        - run: echo "dev migration done"

@@ -1,0 +1,45 @@
+---
+name: "API Deployment"
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: name of environment
+        required: true
+        type: string
+      function:
+        description: name of function
+        required: true
+        type: string
+      function_url:
+        description: URL of the function
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    name: API Deployment
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.function_url }}
+    steps:
+      - name: "Code checkout"
+        uses: actions/checkout@v3
+      - run: echo "${{ inputs.environment }} lambda updated."
+
+  post-deployment:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Post Deployment QA"
+        uses: ./.github/workflows/post_deployment_qa.yml
+      - name: "Post Deployment Dev"
+        uses: ./.github/workflows/post_deployment_dev.yml
+      - name: "Post Deployment UAT"
+        uses: ./.github/workflows/post_deployment_uat.yml
