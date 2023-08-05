@@ -11,7 +11,7 @@ on:
       - "release/*"
       - "main"
   workflow_run:
-    workflows: ["DB Migration"]
+    workflows: ["migrate"]
     types:
       - completed
 
@@ -34,20 +34,3 @@ jobs:
       - name: build
         run: echo "Building..."
 
-  migrate:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: DB Migration
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const { Octokit } = require('@octokit/rest');
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            await octokit.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'migrate.yml',
-              ref: context.ref,
-              # inputs: {} // Pass any inputs your job requires
-            });
