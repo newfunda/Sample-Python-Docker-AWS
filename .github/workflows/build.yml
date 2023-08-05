@@ -38,7 +38,7 @@ jobs:
         run: |
           CHANGES=$(git diff "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" --name-only)
           # Has anything outside of `build` changed?
-          grep -v build <<< "$CHANGES" && echo "module" >> $GITHUB_OUTPUT
+          grep -v build <<< "$CHANGES" && echo "build" >> $GITHUB_OUTPUT
           # Exit cleanly, regardless of final grep result
           exit 0
 
