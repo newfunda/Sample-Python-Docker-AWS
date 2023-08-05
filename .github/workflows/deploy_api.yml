@@ -18,6 +18,9 @@ on:
           - qa
           - dev
           - uat
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy-qa:
