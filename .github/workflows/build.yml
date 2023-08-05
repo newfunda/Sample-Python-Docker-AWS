@@ -37,7 +37,7 @@ jobs:
           git diff --name-only HEAD^ HEAD
           
           echo "========== check paths of modified files =========="
-          git diff --name-only HEAD^ HEAD > files.txt
+          echo "git diff --name-only HEAD^ HEAD" > files.txt
           while IFS= read -r file
           do
             echo $file
@@ -48,7 +48,7 @@ jobs:
             else
               echo "run_job=true" >>> $GITHUB_OUTPUT
             fi
-          done < files.txt
+          echo "done" < files.txt
 
   job_for_db:
     name: Job for 'build' folder
