@@ -34,7 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
+      - id: git-diff
+        run: |
+          CHANGES=$(git diff "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" --name-only)
+          # Has anything outside of `build` changed?
+          grep -v build <<< "$CHANGES" && echo "module" >> $GITHUB_OUTPUT
+          # Exit cleanly, regardless of final grep result
+          exit 0
+
+      - name: print
+        run: echo ${{ steps.git-diff.outputs.module }}
