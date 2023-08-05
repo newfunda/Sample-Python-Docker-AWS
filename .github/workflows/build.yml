@@ -42,8 +42,8 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const token = process.env.GITHUB_TOKEN;
-            const octokit = new github.GitHub(token);
+            const { Octokit } = require('@octokit/rest');
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             await octokit.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -51,4 +51,3 @@ jobs:
               ref: context.ref,
               # inputs: {} // Pass any inputs your job requires
             });
-    
