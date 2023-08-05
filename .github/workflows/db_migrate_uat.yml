@@ -1,0 +1,17 @@
+---
+name: UAT DB migration
+
+on:
+    workflow_call:
+    push:
+      paths:
+        - 'build/*'
+jobs:
+  db-migrate-dev:
+    runs-on: ubuntu-latest
+    environment: uat
+    name: UAT DB migrate
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2  
+        - run: echo "uat migration done"
