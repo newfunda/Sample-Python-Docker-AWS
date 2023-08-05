@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get parent commit
         id: get_parent_commit
-        run: echo "name=parent_commit" >> $GITHUB_OUTPUT::$(git log -1 --format=format:%P ${{ github.sha }})"
+        run: echo "name=parent_commit"::$(git log -1 --format=format:%P ${{ github.sha }})" >> $GITHUB_OUTPUT
 
       - id: folder_changes
         run: |
