@@ -30,3 +30,8 @@ jobs:
           fetch-depth: 0
       - name: build
         run: echo "Building..."
+
+  migrate:
+    needs: build
+    uses: ./.github/workflows/migrate.yml
+    
