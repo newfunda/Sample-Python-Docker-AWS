@@ -1,4 +1,8 @@
+---
+name: "DB Migration"
+
 on:
+  workflow_call:
   push:
     branches:
       - 'main'
@@ -9,5 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     name: db migrate
     steps:
+      - name: checkout code
+        uses: actions/checkout@v3
       - name: migrate
         run: echo "migrating..."
