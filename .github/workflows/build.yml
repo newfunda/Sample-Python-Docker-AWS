@@ -33,10 +33,13 @@ jobs:
         working-directory: .
     steps:
       - uses: actions/checkout@v2
+      - name: Get parent commit
+        id: get_parent_commit
+        run: echo "name=parent_commit" >> $GITHUB_OUTPUT::$(git log -1 --format=format:%P ${{ github.sha }})"
 
       - id: folder_changes
         run: |
-          if git diff --name-only ${{ github.sha }} ${{ github.sha }}^ | grep -q '^build/'; then
+          if git diff --name-only ${{ github.sha }} ${{ steps.get_parent_commit.outputs.parent_commit }} | grep -q '^build/'; then
             echo "Changes detected in the folder."
             echo "ischanged=1" >> $GITHUB_OUTPUT
           else
