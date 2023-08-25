@@ -1,0 +1,16 @@
+on:
+  workflow_dispatch:
+    inputs:
+     branch:
+      description: 'Environment to deploy to'
+      required: true
+      default: 'newfunda'
+      type: choice
+      options:
+        - 'newfunda-*'
+jobs:
+ job1:
+  runs-on: ubuntu-latest
+  steps:
+   - name: test
+     run: echo "you have selected branch-> ${{inputs.branch}}"
