@@ -45,4 +45,3 @@ jobs:
     with:
       environment: 'qa'
     secrets: inherit
-
