@@ -1,0 +1,16 @@
+---
+name: 'Apply'
+description: 'Terraform Apply'
+
+inputs:
+  test:
+    description: test
+    required: false
+
+runs:
+  using: composite
+  steps:
+  - name: create
+    shell: bash
+    run: |
+      echo created
