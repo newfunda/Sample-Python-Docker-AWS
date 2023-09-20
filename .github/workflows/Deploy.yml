@@ -18,4 +18,4 @@ jobs:
 
     steps:
       - name: Go to Dev
-        uses: ./.github/workflows/dev/create.yml
+        uses: ./composite-workflows/dev/create
