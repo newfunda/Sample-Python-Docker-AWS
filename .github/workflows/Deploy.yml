@@ -20,6 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Go to Dev
-        uses: ./.github/workflows/dev/create.yml
+        uses: ./composite-workflows/dev/create
+  # ./.github/workflows/dev/create.yml
         
   # ./composite-workflows/dev/create
