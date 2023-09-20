@@ -1,5 +1,5 @@
 ---
-name: 'Apply'
+name: 'Dev Apply'
 description: 'Terraform Apply'
 
 inputs:
@@ -13,4 +13,4 @@ runs:
   - name: create
     shell: bash
     run: |
-      echo created
+      echo created dev
