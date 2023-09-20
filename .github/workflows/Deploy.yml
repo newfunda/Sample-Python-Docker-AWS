@@ -17,5 +17,9 @@ jobs:
         shell: bash
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Go to Dev
-        uses: ./composite-workflows/dev/create
+        uses: ./.github/workflows/dev/create.yml
+        
+  # ./composite-workflows/dev/create
