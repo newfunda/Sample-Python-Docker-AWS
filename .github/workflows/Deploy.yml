@@ -1,0 +1,21 @@
+---
+name: 'Dev - Terraform Apply'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  Dev_Deploy:
+    name: 'Dev Deploy'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Go to Dev
+        uses: ./.github/workflows/dev/create.yml
