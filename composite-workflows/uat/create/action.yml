@@ -1,0 +1,16 @@
+---
+name: 'UAT - Apply'
+description: 'Terraform Apply'
+
+inputs:
+  test:
+    description: Required helmfile version to use
+    required: false
+
+runs:
+  using: composite
+  steps:
+  - name: create
+    shell: bash
+    run: |
+      echo created UAT
