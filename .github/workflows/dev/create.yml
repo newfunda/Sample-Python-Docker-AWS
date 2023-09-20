@@ -1,1 +1,21 @@
+---
+name: 'Deploying to Dev'
 
+on:
+  workflow_call:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  Dev_Deploy:
+    name: 'Dev Deploy'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Go to Dev
+        run: echo 'deployed to dev'
